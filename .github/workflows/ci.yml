@@ -1,0 +1,35 @@
+name: Hello Actions
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  release:
+    types:
+      - created
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Greet someone
+        run: echo "Hello, World!"
+
+      - name: Show event info
+        run: |
+          echo "Triggered by: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref_name }}"
+
+  test:
+    runs-on: ubuntu-latest
+    needs: greet
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run tests
+        run: echo "All tests passed!"
